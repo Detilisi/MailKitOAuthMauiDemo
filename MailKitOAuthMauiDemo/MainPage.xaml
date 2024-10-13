@@ -7,7 +7,6 @@
         Padding="10" 
         Spacing="20" 
         VerticalOptions="Center">
-        <!-- Sign In Button -->
         <Label 
             Text="Sign In" 
             TextColor="#FF4500" 
@@ -16,13 +15,11 @@
             HorizontalOptions="Center" 
             />
 
-        <!-- Social Sign In -->
         <Label Text="with" 
            FontSize="18" 
            TextColor="White" 
            HorizontalOptions="Center" />
 
-        <!-- Social Buttons -->
         <ImageButton 
             Source="google_icon.png" 
             Margin="20"
@@ -30,8 +27,9 @@
             WidthRequest="150" 
             HeightRequest="150" 
             CornerRadius="90"
+            Clicked="GoogleBtn_Clicked"
             />
-        <!-- Back Button -->
+        
         <Button 
             FontSize="18" 
             Text="don't have an account? sign up" 
