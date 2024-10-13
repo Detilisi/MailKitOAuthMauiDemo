@@ -1,4 +1,10 @@
-﻿namespace MailKitOAuthMauiDemo
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Util.Store;
+using MailKit.Net.Imap;
+using MailKit.Security;
+
+namespace MailKitOAuthMauiDemo
 {
     public partial class MainPage : ContentPage
     {
@@ -9,16 +15,41 @@
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        public async Task ConnectMailKit()
         {
-            /*count++;
+            const string GMailAccount = "username@gmail.com";
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+            var clientSecrets = new ClientSecrets
+            {
+                ClientId = "XXX.apps.googleusercontent.com",
+                ClientSecret = "XXX"
+            };
 
-            SemanticScreenReader.Announce(CounterBtn.Text);*/
+            var codeFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+            {
+                DataStore = new FileDataStore("CredentialCacheFolder", false),
+                Scopes = new[] { "https://mail.google.com/" },
+                ClientSecrets = clientSecrets,
+                LoginHint = GMailAccount
+            });
+
+            // Note: For a web app, you'll want to use AuthorizationCodeWebApp instead.
+            var codeReceiver = new LocalServerCodeReceiver();
+            var authCode = new AuthorizationCodeInstalledApp(codeFlow, codeReceiver);
+
+            var credential = await authCode.AuthorizeAsync(GMailAccount, CancellationToken.None);
+
+            if (credential.Token.IsStale)
+                await credential.RefreshTokenAsync(CancellationToken.None);
+
+            var oauth2 = new SaslMechanismOAuth2(credential.UserId, credential.Token.AccessToken);
+
+            using (var client = new ImapClient())
+            {
+                await client.ConnectAsync("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
+                await client.AuthenticateAsync(oauth2);
+                await client.DisconnectAsync(true);
+            }
         }
     }
 
