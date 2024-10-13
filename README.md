@@ -1,0 +1,1 @@
+A .NET MAUI demo that integrates GamiloAuth2 for secure OAuth2 authentication and MailKit for email sending. It showcases how to implement secure login and email functionality in cross-platform apps, serving as a practical reference for developers working with authentication and mailing services.
