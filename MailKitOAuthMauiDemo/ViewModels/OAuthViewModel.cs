@@ -5,10 +5,11 @@ using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Util.Store;
 using MailKit.Net.Imap;
 using MailKit.Security;
+using MailKitOAuthMauiDemo.ViewModels.Base;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
-internal partial class OAuthViewModel : ObservableObject
+internal partial class OAuthViewModel : BaseViewModel
 {
     private const int ImapPort = 993;
     private const string ImapServer = "imap.gmail.com";
@@ -18,17 +19,7 @@ internal partial class OAuthViewModel : ObservableObject
     private readonly string _clientId = "XXX.apps.googleusercontent.com";
     private readonly string _clientSecret = "XXX";
 
-  
-    // Loading state to bind to the UI (optional)
-    private bool _isBusy;
-    public bool IsBusy
-    {
-        get => _isBusy;
-        set => SetProperty(ref _isBusy, value);
-    }
 
-    private bool CanExecuteConnect => !IsBusy;
-    
     [RelayCommand]
     public async Task ConnectMailKitAsync()
     {
