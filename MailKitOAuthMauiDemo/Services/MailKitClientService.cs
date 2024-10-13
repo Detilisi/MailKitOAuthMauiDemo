@@ -18,7 +18,7 @@ internal class MailKitClientService
         _client = new ImapClient();
     }
 
-    public async Task<bool> AuthenticateAsync(ClientSecrets clientSecrets, string userId, CancellationToken cancellationToken)
+    public async Task<bool> AuthenticateAsync(ClientSecrets clientSecrets, string userId, CancellationToken cancellationToken = default)
     {
         var codeFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
         {
