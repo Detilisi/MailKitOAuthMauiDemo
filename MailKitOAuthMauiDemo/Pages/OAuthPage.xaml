@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MailKitOAuthMauiDemo.ViewModels"
+             x:Class="MailKitOAuthMauiDemo.Pages.OAuthPage"
+             Title="OAuthPage">
+    
+    <ContentPage.BindingContext>
+        <vm:OAuthViewModel />
+    </ContentPage.BindingContext>
+    
+    <VerticalStackLayout>
+        <Label 
+            Text="Connect to Gmail via OAuth2" 
+            HorizontalOptions="Center" 
+            VerticalOptions="CenterAndExpand" />
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator 
+            IsRunning="{Binding IsBusy}" 
+            IsVisible="{Binding IsBusy}" />
+
+        <!-- Connect Button -->
+        <Button Text="Connect with Google"
+                Command="{Binding ConnectMailKitCommand}" />
+        
+    </VerticalStackLayout>
+</ContentPage>

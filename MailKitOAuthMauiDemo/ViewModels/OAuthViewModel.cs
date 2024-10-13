@@ -30,7 +30,7 @@ internal partial class OAuthViewModel : ObservableObject
     private bool CanExecuteConnect => !IsBusy;
     
     [RelayCommand]
-    private async Task ConnectMailKitAsync()
+    public async Task ConnectMailKitAsync()
     {
         try
         {
