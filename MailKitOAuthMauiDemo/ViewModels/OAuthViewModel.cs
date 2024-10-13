@@ -1,24 +1,19 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Google.Apis.Auth.OAuth2;
-using Google.Apis.Auth.OAuth2.Flows;
-using Google.Apis.Util.Store;
-using MailKit.Net.Imap;
-using MailKit.Security;
+using MailKitOAuthMauiDemo.Services;
 using MailKitOAuthMauiDemo.ViewModels.Base;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
 internal partial class OAuthViewModel : BaseViewModel
 {
-    private const int ImapPort = 993;
-    private const string ImapServer = "imap.gmail.com";
+    private MailKitClientService _mailKitClient;
     private const string GMailAccount = "username@gmail.com";
 
-    // Client secrets (Store securely)
-    private readonly string _clientId = "XXX.apps.googleusercontent.com";
-    private readonly string _clientSecret = "XXX";
-
+    public OAuthViewModel()
+    {
+        _mailKitClient = new MailKitClientService();
+    }
 
     [RelayCommand]
     public async Task ConnectMailKitAsync()
@@ -31,37 +26,20 @@ internal partial class OAuthViewModel : BaseViewModel
 
             var clientSecrets = new ClientSecrets
             {
-                ClientId = _clientId,
-                ClientSecret = _clientSecret
+                ClientId = "XXX.apps.googleusercontent.com",
+                ClientSecret = "XXX"
             };
 
-            var codeFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+            var authenicationSuccessful = await _mailKitClient.AuthenticateAsync(clientSecrets, GMailAccount);
+            if (authenicationSuccessful)
             {
-                DataStore = new FileDataStore("CredentialCacheFolder", false),
-                Scopes = new[] { "https://mail.google.com/" },
-                ClientSecrets = clientSecrets,
-                LoginHint = GMailAccount
-            });
+                IsBusy = false;
 
-            var codeReceiver = new LocalServerCodeReceiver();
-            var authCode = new AuthorizationCodeInstalledApp(codeFlow, codeReceiver);
-
-            var credential = await authCode.AuthorizeAsync(GMailAccount, CancellationToken.None);
-
-            // Refresh the token if needed
-            if (credential.Token.IsStale)
-            {
-                await credential.RefreshTokenAsync(CancellationToken.None);
+                //Open email list page
             }
-
-            var oauth2 = new SaslMechanismOAuth2(credential.UserId, credential.Token.AccessToken);
-
-            // Connect to the IMAP server
-            using (var client = new ImapClient())
+            else 
             {
-                await client.ConnectAsync(ImapServer, ImapPort, SecureSocketOptions.SslOnConnect);
-                await client.AuthenticateAsync(oauth2);
-                await client.DisconnectAsync(true);
+                //Try again
             }
         }
         finally
