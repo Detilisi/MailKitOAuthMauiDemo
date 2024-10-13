@@ -1,4 +1,5 @@
-﻿using MailKit;
+﻿using CommunityToolkit.Mvvm.Input;
+using MailKit;
 using MailKit.Net.Imap;
 using MailKitOAuthMauiDemo.ViewModels.Base;
 using MimeKit;
@@ -6,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
-internal class EmailListViewModel : BaseViewModel
+internal partial class EmailListViewModel : BaseViewModel
 {
     public ObservableCollection<MimeMessage> Emails { get; set; }
 
@@ -15,7 +16,8 @@ internal class EmailListViewModel : BaseViewModel
         Emails = new ObservableCollection<MimeMessage>();
     }
 
-    private async Task LoadEmails()
+    [RelayCommand]
+    public async Task LoadEmails()
     {
         if (IsBusy) return;
         IsBusy = true;

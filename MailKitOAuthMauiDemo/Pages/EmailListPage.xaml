@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MailKitOAuthMauiDemo.Pages.EmailListPage"
+             xmlns:vm="clr-namespace:MailKitOAuthMauiDemo.ViewModels"
+             Title="EmailListPage">
+    <ContentPage.BindingContext>
+        <vm:EmailListViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout>
+        <Label 
+            Text="Your Email Messages"
+            FontSize="32"
+            FontAttributes="Bold"
+            HorizontalOptions="Center" 
+            VerticalOptions="CenterAndExpand" />
+
+        <StackLayout Padding="10">
+            <!-- CollectionView to display emails -->
+            <CollectionView ItemsSource="{Binding Emails}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="5" HasShadow="True" BackgroundColor="White">
+                            <StackLayout>
+                                <Label Text="{Binding Subject}" FontAttributes="Bold" TextColor="Black" />
+                                <Label Text="{Binding From}" TextColor="Gray" />
+                                <Label Text="{Binding Date}" FontAttributes="Italic" TextColor="DarkGray" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Refresh Button -->
+            <Button Text="Refresh Emails" Command="{Binding LoadEmailsCommand}" 
+                HorizontalOptions="Center" VerticalOptions="EndAndExpand" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>
