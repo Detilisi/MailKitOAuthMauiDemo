@@ -51,6 +51,11 @@ namespace MailKitOAuthMauiDemo
                 await client.DisconnectAsync(true);
             }
         }
+
+        private async void GoogleBtn_Clicked(object sender, EventArgs e)
+        {
+            await ConnectMailKit();
+        }
     }
 
 }
