@@ -8,12 +8,22 @@
     <ContentPage.BindingContext>
         <vm:OAuthViewModel />
     </ContentPage.BindingContext>
-    
-    <VerticalStackLayout>
+
+    <VerticalStackLayout
+        Padding="10" 
+        Spacing="20" 
+        VerticalOptions="Center">
+
         <Label 
-            Text="Connect to Gmail via OAuth2" 
+            Text="Connect via OAuth2"
+            FontSize="32"
+            FontAttributes="Bold"
             HorizontalOptions="Center" 
             VerticalOptions="CenterAndExpand" />
+        
+        <Label Text="with" 
+           FontSize="18" 
+           HorizontalOptions="Center" />    
 
         <!-- Loading Indicator -->
         <ActivityIndicator 
@@ -21,8 +31,14 @@
             IsVisible="{Binding IsBusy}" />
 
         <!-- Connect Button -->
-        <Button Text="Connect with Google"
-                Command="{Binding ConnectMailKitCommand}" />
-        
+        <ImageButton 
+            Source="google_icon.png" 
+            Margin="20"
+            Padding="30"
+            WidthRequest="150" 
+            HeightRequest="150" 
+            CornerRadius="90"
+            Command="{Binding ConnectMailKitCommand}" />
+
     </VerticalStackLayout>
 </ContentPage>
