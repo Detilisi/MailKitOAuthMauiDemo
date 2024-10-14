@@ -5,16 +5,12 @@ using MailKitOAuthMauiDemo.ViewModels.Base;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
-internal partial class OAuthViewModel : BaseViewModel
+internal partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
 {
-    private MailKitClientService _mailKitClient;
+    //Fields
     private const string GMailAccount = "username@gmail.com";
 
-    public OAuthViewModel()
-    {
-        _mailKitClient = new MailKitClientService();
-    }
-
+    //Commands
     [RelayCommand]
     public async Task ConnectMailKitAsync()
     {
@@ -30,7 +26,7 @@ internal partial class OAuthViewModel : BaseViewModel
                 ClientSecret = "XXX"
             };
 
-            var authenicationSuccessful = await _mailKitClient.AuthenticateAsync(clientSecrets, GMailAccount);
+            var authenicationSuccessful = await _mailKitClientService.AuthenticateAsync(clientSecrets, GMailAccount);
             if (authenicationSuccessful)
             {
                 IsBusy = false;
