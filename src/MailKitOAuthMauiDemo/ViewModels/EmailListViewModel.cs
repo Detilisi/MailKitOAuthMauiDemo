@@ -2,7 +2,6 @@
 using MailKitOAuthMauiDemo.Models;
 using MailKitOAuthMauiDemo.Services;
 using MailKitOAuthMauiDemo.ViewModels.Base;
-using MimeKit;
 using System.Collections.ObjectModel;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
@@ -38,8 +37,7 @@ public partial class EmailListViewModel(MailKitClientService mailKitClient) : Ba
         }
         catch (Exception ex)
         {
-            // Handle exceptions
-            Console.WriteLine($"Error fetching emails: {ex.Message}");
+            await Shell.Current.DisplayAlert("Fetching Emails Failed", ex.Message, "Ok");
         }
         finally
         {
