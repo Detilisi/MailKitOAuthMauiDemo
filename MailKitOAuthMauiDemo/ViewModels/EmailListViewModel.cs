@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
-internal partial class EmailListViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
+public partial class EmailListViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
 {
     //Properties
     public ObservableCollection<MimeMessage> Emails { get; set; } = [];

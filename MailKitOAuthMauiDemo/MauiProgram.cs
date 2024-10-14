@@ -1,4 +1,6 @@
-﻿using MailKitOAuthMauiDemo.Services;
+﻿using MailKitOAuthMauiDemo.Pages;
+using MailKitOAuthMauiDemo.Services;
+using MailKitOAuthMauiDemo.ViewModels;
 using Microsoft.Extensions.Logging;
 
 namespace MailKitOAuthMauiDemo
@@ -24,6 +26,12 @@ namespace MailKitOAuthMauiDemo
             builder.Services.AddSingleton<MailKitClientService>();
 
             //Register view models
+            builder.Services.AddSingleton<OAuthViewModel>();
+            builder.Services.AddSingleton<EmailListViewModel>();
+
+            //Register Pages
+            builder.Services.AddSingleton<OAuthPage>();
+            builder.Services.AddSingleton<EmailListPage>();
 
             return builder.Build();
         }

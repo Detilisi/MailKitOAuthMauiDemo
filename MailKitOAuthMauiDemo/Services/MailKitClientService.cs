@@ -8,7 +8,7 @@ using MimeKit;
 
 namespace MailKitOAuthMauiDemo.Services;
 
-internal class MailKitClientService
+public class MailKitClientService
 {
     //Constants
     private const int ImapPort = 993;

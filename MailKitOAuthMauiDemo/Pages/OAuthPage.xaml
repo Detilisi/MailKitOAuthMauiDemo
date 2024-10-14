@@ -2,13 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:MailKitOAuthMauiDemo.ViewModels"
+             x:DataType="vm:OAuthViewModel"
              x:Class="MailKitOAuthMauiDemo.Pages.OAuthPage"
              Title="OAuthPage">
     
-    <ContentPage.BindingContext>
-        <vm:OAuthViewModel />
-    </ContentPage.BindingContext>
-
     <VerticalStackLayout
         Padding="10" 
         Spacing="20" 

@@ -5,7 +5,7 @@ using MailKitOAuthMauiDemo.ViewModels.Base;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
-internal partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
+public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
 {
     //Fields
     private const string GMailAccount = "username@gmail.com";

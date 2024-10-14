@@ -3,7 +3,7 @@ using MailKitOAuthMauiDemo.Services;
 
 namespace MailKitOAuthMauiDemo.ViewModels.Base
 {
-    internal class BaseViewModel(MailKitClientService mailKitClient) : ObservableObject
+    public class BaseViewModel(MailKitClientService mailKitClient) : ObservableObject
     {
         //Services
         protected MailKitClientService _mailKitClientService = mailKitClient;
