@@ -16,7 +16,19 @@
 
         <StackLayout Padding="10">
             <!-- CollectionView to display emails -->
-            
+            <CollectionView ItemsSource="{Binding Emails}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="5" HasShadow="True" BackgroundColor="White">
+                            <StackLayout>
+                                <Label Text="{Binding Subject}" FontAttributes="Bold" TextColor="Black" />
+                                <Label Text="{Binding From}" TextColor="Gray" />
+                                <Label Text="{Binding Date}" FontAttributes="Italic" TextColor="DarkGray" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
             <!-- Refresh Button -->
             <Button Text="Refresh Emails" Command="{Binding LoadEmailsCommand}" 
