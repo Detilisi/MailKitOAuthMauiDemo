@@ -30,12 +30,12 @@ public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseVi
             if (authenicationSuccessful)
             {
                 IsBusy = false;
-
-                //Open email list page
+                await Shell.Current.GoToAsync("//EmailListPage");
             }
             else 
             {
                 //Try again
+                await Shell.Current.DisplayAlert("Login Failed", "Authentication failed, please try again", "Ok");
             }
         }
         finally
