@@ -1,10 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MailKitOAuthMauiDemo.Services;
 
 namespace MailKitOAuthMauiDemo.ViewModels.Base
 {
-    internal class BaseViewModel : ObservableObject
+    internal class BaseViewModel(MailKitClientService mailKitClient) : ObservableObject
     {
-        // Loading state to bind to the UI
+        //Services
+        protected MailKitClientService _mailKitClientService = mailKitClient;
+
+        //Properties
         private bool _isBusy;
         public bool IsBusy
         {
