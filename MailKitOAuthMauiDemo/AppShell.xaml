@@ -13,4 +13,8 @@
         ContentTemplate="{DataTemplate pages:OAuthPage}"
         Route="OAuthPage" />
 
+    <ShellContent 
+        Title="Emails" 
+        ContentTemplate="{DataTemplate pages:EmailListPage}" 
+        Route="EmailListPage"/>
 </Shell>
