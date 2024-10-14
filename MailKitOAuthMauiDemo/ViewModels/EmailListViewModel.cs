@@ -1,6 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using MailKit;
-using MailKit.Net.Imap;
 using MailKitOAuthMauiDemo.Services;
 using MailKitOAuthMauiDemo.ViewModels.Base;
 using MimeKit;
@@ -22,28 +20,14 @@ internal partial class EmailListViewModel(MailKitClientService mailKitClient) : 
 
         try
         {
-            using (var client = new ImapClient())
+            if(!_mailKitClientService.ClientConnected) return;
+
+            var mimeMessages = await _mailKitClientService.LoadMimeMessages();
+
+            Emails.Clear();
+            foreach (var message in mimeMessages)
             {
-                await client.ConnectAsync("imap.gmail.com", 993, true);
-                await client.AuthenticateAsync("your-email@gmail.com", "your-app-password");
-
-                // Open the INBOX
-                var inbox = client.Inbox;
-                await inbox.OpenAsync(FolderAccess.ReadOnly);
-
-                // Retrieve the last 10 messages
-                var recentMessages = inbox.Recent > 10 ? inbox.Recent - 10 : 0;
-                var messages = inbox.Fetch(recentMessages, -1, MessageSummaryItems.Full | MessageSummaryItems.UniqueId)
-                                  .Select(summary => inbox.GetMessage(summary.UniqueId))
-                                  .Take(10);
-
-                Emails.Clear();
-                foreach (var message in messages)
-                {
-                    Emails.Add(message);
-                }
-
-                await client.DisconnectAsync(true);
+                Emails.Add(message);
             }
         }
         catch (Exception ex)
