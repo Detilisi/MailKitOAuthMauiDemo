@@ -1,21 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MailKit;
 using MailKit.Net.Imap;
+using MailKitOAuthMauiDemo.Services;
 using MailKitOAuthMauiDemo.ViewModels.Base;
 using MimeKit;
 using System.Collections.ObjectModel;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
-internal partial class EmailListViewModel : BaseViewModel
+internal partial class EmailListViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
 {
-    public ObservableCollection<MimeMessage> Emails { get; set; }
+    //Properties
+    public ObservableCollection<MimeMessage> Emails { get; set; } = [];
 
-    public EmailListViewModel()
-    {
-        Emails = new ObservableCollection<MimeMessage>();
-    }
-
+    //Commands
     [RelayCommand]
     public async Task LoadEmails()
     {
