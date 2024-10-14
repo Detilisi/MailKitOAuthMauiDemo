@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MailKitOAuthMauiDemo.Pages.EmailListPage"
              xmlns:vm="clr-namespace:MailKitOAuthMauiDemo.ViewModels"
+             xmlns:models="clr-namespace:MailKitOAuthMauiDemo.Models"
              x:DataType="vm:EmailListViewModel"
              Title="EmailListPage">
-    
+
     <VerticalStackLayout>
         <Label 
             Text="Your Email Messages"
@@ -16,7 +17,7 @@
 
         <StackLayout Padding="10">
             <!-- CollectionView to display emails -->
-            <CollectionView ItemsSource="{Binding Emails}">
+            <CollectionView x:Name="EmailCollectionView" x:DataType="models:EmailModel">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame Padding="10" Margin="5" HasShadow="True" BackgroundColor="White">
