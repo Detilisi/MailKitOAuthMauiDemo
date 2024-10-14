@@ -4,9 +4,12 @@ namespace MailKitOAuthMauiDemo.Pages;
 
 public partial class EmailListPage : ContentPage
 {
+
 	public EmailListPage(EmailListViewModel viewModel)
 	{
-		BindingContext = viewModel;
 		InitializeComponent();
-	}
+
+        BindingContext = viewModel;
+        EmailCollectionView.ItemsSource = viewModel.Emails;
+    }
 }
