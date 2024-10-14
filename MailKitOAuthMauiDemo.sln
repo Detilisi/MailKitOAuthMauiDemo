@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailKitOAuthMauiDemo", "MailKitOAuthMauiDemo\MailKitOAuthMauiDemo.csproj", "{B2A18CA1-B8F7-4658-B234-B468D9F40462}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EAB147D3-4DA8-4148-B131-7C840F324638}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailKitOAuthMauiDemo", "src\MailKitOAuthMauiDemo\MailKitOAuthMauiDemo.csproj", "{BEC9F200-D369-4639-BA44-C57921D3CDC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B2A18CA1-B8F7-4658-B234-B468D9F40462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2A18CA1-B8F7-4658-B234-B468D9F40462}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2A18CA1-B8F7-4658-B234-B468D9F40462}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{B2A18CA1-B8F7-4658-B234-B468D9F40462}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2A18CA1-B8F7-4658-B234-B468D9F40462}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2A18CA1-B8F7-4658-B234-B468D9F40462}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BEC9F200-D369-4639-BA44-C57921D3CDC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEC9F200-D369-4639-BA44-C57921D3CDC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEC9F200-D369-4639-BA44-C57921D3CDC5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BEC9F200-D369-4639-BA44-C57921D3CDC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEC9F200-D369-4639-BA44-C57921D3CDC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEC9F200-D369-4639-BA44-C57921D3CDC5}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BEC9F200-D369-4639-BA44-C57921D3CDC5} = {EAB147D3-4DA8-4148-B131-7C840F324638}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E8DB120-2F6E-428C-B79C-F7737DEE5BF8}
