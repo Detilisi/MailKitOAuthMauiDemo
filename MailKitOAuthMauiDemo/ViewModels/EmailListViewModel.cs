@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using MailKitOAuthMauiDemo.Models;
 using MailKitOAuthMauiDemo.Services;
 using MailKitOAuthMauiDemo.ViewModels.Base;
 using MimeKit;
@@ -9,7 +10,7 @@ namespace MailKitOAuthMauiDemo.ViewModels;
 public partial class EmailListViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
 {
     //Properties
-    public ObservableCollection<MimeMessage> Emails { get; set; } = [];
+    public ObservableCollection<EmailModel> Emails { get; set; } = [];
 
     //Commands
     [RelayCommand]
@@ -27,7 +28,12 @@ public partial class EmailListViewModel(MailKitClientService mailKitClient) : Ba
             Emails.Clear();
             foreach (var message in mimeMessages)
             {
-                Emails.Add(message);
+                Emails.Add(new EmailModel
+                {
+                    Subject = message.Subject,
+                    From = message.From.ToString(),
+                    Date = message.Date.ToString("g") 
+                });
             }
         }
         catch (Exception ex)
