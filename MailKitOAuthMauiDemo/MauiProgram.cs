@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MailKitOAuthMauiDemo.Services;
+using Microsoft.Extensions.Logging;
 
 namespace MailKitOAuthMauiDemo
 {
@@ -18,6 +19,11 @@ namespace MailKitOAuthMauiDemo
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            //Register servives
+            builder.Services.AddSingleton<MailKitClientService>();
+
+            //Register view models
 
             return builder.Build();
         }
