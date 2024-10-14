@@ -10,10 +10,12 @@ namespace MailKitOAuthMauiDemo.Services;
 
 internal class MailKitClientService
 {
-    //Fields
-    private ImapClient _client;
+    //Constants
     private const int ImapPort = 993;
     private const string ImapServer = "imap.gmail.com";
+
+    //Fields
+    private readonly ImapClient _client;
     
     //Construction
     public MailKitClientService()
