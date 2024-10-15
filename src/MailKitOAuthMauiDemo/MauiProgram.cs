@@ -28,10 +28,12 @@ namespace MailKitOAuthMauiDemo
             //Register view models
             builder.Services.AddSingleton<OAuthViewModel>();
             builder.Services.AddSingleton<EmailListViewModel>();
+            builder.Services.AddSingleton<EmailSenderViewModel>();
 
             //Register Pages
             builder.Services.AddSingleton<OAuthPage>();
             builder.Services.AddSingleton<EmailListPage>();
+            builder.Services.AddSingleton<EmailSenderPage>();
 
             return builder.Build();
         }

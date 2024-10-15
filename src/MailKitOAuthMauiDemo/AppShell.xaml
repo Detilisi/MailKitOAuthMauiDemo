@@ -17,4 +17,9 @@
         Title="Emails" 
         ContentTemplate="{DataTemplate pages:EmailListPage}" 
         Route="EmailListPage"/>
+
+    <ShellContent 
+    Title="Emails" 
+    ContentTemplate="{DataTemplate pages:EmailSenderPage}" 
+    Route="EmailSenderPage"/>
 </Shell>
