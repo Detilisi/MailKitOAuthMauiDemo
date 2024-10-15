@@ -24,6 +24,7 @@ public class MailKitClientService
     }
 
     //Properties
+    public string ClientEmailAddress { get; private set; } = string.Empty;
     public bool ImapClientConnected => _imapClient.IsConnected && _imapClient.IsAuthenticated;
     public bool SmtpClientConnected => _smptClient.IsConnected && _smptClient.IsAuthenticated;
 
@@ -46,6 +47,8 @@ public class MailKitClientService
         {
             await _userCredential.RefreshTokenAsync(token);
         }
+
+        ClientEmailAddress = userId;
 
         return true; 
     }
