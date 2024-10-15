@@ -83,7 +83,7 @@ public class MailKitClientService
     //Email operations
     public async Task<bool> SendEmailAsync(MimeMessage message, CancellationToken token = default)
     {
-        var result = await _smptClient.SendAsync(message, token);
+        await _smptClient.SendAsync(message, token);
         return true;
     }
 
