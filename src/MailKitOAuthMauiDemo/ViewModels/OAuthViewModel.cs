@@ -26,8 +26,8 @@ public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseVi
             }
 
             // Perform authentication
-            var noUserId = " "; //trust me bro
-            bool isAuthenticated = await _mailKitClientService.AuthenticateAsync(clientSecrets, noUserId);
+            var testerEmail = "tester@gmail.com"; //trust me bro
+            bool isAuthenticated = await _mailKitClientService.AuthenticateAsync(clientSecrets, testerEmail);
 
             if (isAuthenticated)
             {
