@@ -34,8 +34,7 @@ public class MailKitClientService
         {
             DataStore = new FileDataStore("CredentialCacheFolder", false),
             Scopes = ["https://mail.google.com/"],
-            ClientSecrets = clientSecrets,
-            LoginHint = userId
+            ClientSecrets = clientSecrets
         });
 
         var codeReceiver = new LocalServerCodeReceiver();
