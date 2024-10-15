@@ -20,9 +20,11 @@ public partial class EmailListViewModel(MailKitClientService mailKitClient) : Ba
 
         try
         {
-            if(!_mailKitClientService.ClientConnected) return;
+            await _mailKitClientService.ConnectImapClientAsync();
+            
+            if (!_mailKitClientService.ImapClientConnected) return;
 
-            var mimeMessages = await _mailKitClientService.LoadMimeMessages();
+            var mimeMessages = await _mailKitClientService.LoadEmailMessagesAsync();
 
             Emails.Clear();
             foreach (var message in mimeMessages)
