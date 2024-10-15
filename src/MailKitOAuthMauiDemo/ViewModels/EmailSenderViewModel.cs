@@ -27,6 +27,12 @@ public partial class EmailSenderViewModel(MailKitClientService mailKitClient) : 
 
         try
         {
+            if (!_mailKitClientService.SmtpClientConnected)
+            {
+                await Shell.Current.DisplayAlert("Error", "Please connect your email client first.", "OK");
+                return;
+            }
+
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Your Name", "youremail@example.com"));
             message.To.Add(new MailboxAddress("", Recipient));
@@ -37,18 +43,8 @@ public partial class EmailSenderViewModel(MailKitClientService mailKitClient) : 
                 Text = Body
             };
 
-            if (!_mailKitClientService.ImapClientConnected)
-            {
-                await Shell.Current.DisplayAlert("Error", "Please connect your email client first.", "OK");
-                return;
-            }
-
-            /*using (var smtpClient = _mailKitClientService.GetSmtpClient())
-            {
-                await smtpClient.SendAsync(message);
-                await smtpClient.DisconnectAsync(true);
-            }*/
-
+            await _mailKitClientService.SendEmailAsync(message);
+            
             await Shell.Current.DisplayAlert("Success", "Email sent successfully.", "OK");
         }
         catch (Exception ex)
