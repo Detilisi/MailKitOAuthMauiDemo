@@ -37,7 +37,7 @@ public partial class EmailSenderViewModel(MailKitClientService mailKitClient) : 
                 Text = Body
             };
 
-            if (!_mailKitClientService.ClientConnected)
+            if (!_mailKitClientService.ImapClientConnected)
             {
                 await Shell.Current.DisplayAlert("Error", "Please connect your email client first.", "OK");
                 return;
