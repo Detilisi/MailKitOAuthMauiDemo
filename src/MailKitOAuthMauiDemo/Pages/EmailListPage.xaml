@@ -5,15 +5,17 @@
              xmlns:vm="clr-namespace:MailKitOAuthMauiDemo.ViewModels"
              xmlns:models="clr-namespace:MailKitOAuthMauiDemo.Models"
              x:DataType="vm:EmailListViewModel"
-             Title="EmailListPage">
+             Title="Inbox">
 
     <VerticalStackLayout>
-        <Label 
-            Text="Your Email Messages"
-            FontSize="32"
+
+        <Button 
+            Margin="20"
+            Text="Write Email" 
             FontAttributes="Bold"
-            HorizontalOptions="Center" 
-            VerticalOptions="CenterAndExpand" />
+            Command="{Binding WriteEmailCommand}" 
+            VerticalOptions="Center"
+            HorizontalOptions="End" />
 
         <!-- Loading Indicator -->
         <ActivityIndicator 
@@ -25,7 +27,7 @@
             <CollectionView x:Name="EmailCollectionView" x:DataType="models:EmailModel">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="10" Margin="5" HasShadow="True" BackgroundColor="MediumPurple">
+                        <Frame Padding="10" Margin="10" HasShadow="True" BackgroundColor="MediumPurple">
                             <StackLayout>
                                 <Label Text="{Binding Subject}" FontAttributes="Bold"/>
                                 <Label Text="{Binding From}" />
