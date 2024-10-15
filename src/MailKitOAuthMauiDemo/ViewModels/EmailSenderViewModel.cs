@@ -29,6 +29,13 @@ public partial class EmailSenderViewModel: BaseViewModel
 
     //Commands
     [RelayCommand]
+    public async Task CancelAsync()
+    {
+        if (IsBusy) return;
+        await Shell.Current.GoToAsync("//EmailListPage");
+    }
+
+    [RelayCommand]
     public async Task SendEmailAsync()
     {
         if (IsBusy) return;

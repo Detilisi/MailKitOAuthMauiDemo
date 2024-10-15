@@ -31,7 +31,16 @@
         <!-- Send Button -->
         <Button 
             Text="Send Email" 
+            FontSize="22"
+            FontAttributes="Bold"
             Command="{Binding SendEmailCommand}" />
+        <Button 
+            Text="Cancel" 
+            FontSize="22"
+            TextColor="White"
+            FontAttributes="Bold"
+            BackgroundColor="Red"
+            Command="{Binding CancelCommand}" />
 
         <!-- Activity Indicator -->
         <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
