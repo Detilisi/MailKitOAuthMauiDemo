@@ -3,6 +3,7 @@ using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Util.Store;
 using MailKit;
 using MailKit.Net.Imap;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 
@@ -10,24 +11,24 @@ namespace MailKitOAuthMauiDemo.Services;
 
 public class MailKitClientService
 {
-    //Constants
-    private const int ImapPort = 993;
-    private const string ImapServer = "imap.gmail.com";
-
     //Fields
-    private readonly ImapClient _client;
-    
+    private readonly ImapClient _imapClient;
+    private readonly SmtpClient _smptClient;
+    private UserCredential? _userCredential;
+
     //Construction
     public MailKitClientService()
     {
-        _client = new ImapClient();
+        _imapClient = new ImapClient();
+        _smptClient = new SmtpClient();
     }
 
     //Properties
-    public bool ClientConnected => _client.IsConnected && _client.IsAuthenticated;
+    public bool ImapClientConnected => _imapClient.IsConnected && _imapClient.IsAuthenticated;
+    public bool SmtpClientConnected => _smptClient.IsConnected && _smptClient.IsAuthenticated;
 
-    //Methods
-    public async Task<bool> AuthenticateAsync(ClientSecrets clientSecrets, string userId, CancellationToken cancellationToken = default)
+    //Authenitication
+    public async Task<bool> AuthenticateAsync(ClientSecrets clientSecrets, string userId, CancellationToken token = default)
     {
         var codeFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
         {
@@ -39,34 +40,64 @@ public class MailKitClientService
 
         var codeReceiver = new LocalServerCodeReceiver();
         var authCode = new AuthorizationCodeInstalledApp(codeFlow, codeReceiver);
-        var credential = await authCode.AuthorizeAsync(userId, cancellationToken);
+        _userCredential = await authCode.AuthorizeAsync(userId, token);
 
         // Refresh the token if needed
-        if (credential.Token.IsStale)
+        if (_userCredential.Token.IsStale)
         {
-            await credential.RefreshTokenAsync(cancellationToken);
+            await _userCredential.RefreshTokenAsync(token);
         }
 
-        var oauth2 = new SaslMechanismOAuth2(credential.UserId, credential.Token.AccessToken);
-
-        // Connect and authenticate
-        await _client.ConnectAsync(ImapServer, ImapPort, SecureSocketOptions.SslOnConnect, cancellationToken);
-        await _client.AuthenticateAsync(oauth2, cancellationToken);
-
-        return true; // Indicate success
+        return true; 
     }
 
-    public async Task<List<MimeMessage>> LoadMimeMessages()
+    public async Task<bool> ConnectImapClientAsync(CancellationToken token = default)
+    {
+        if(_userCredential == null) return false;
+        
+        const int imapPort = 993;
+        const string imapServer = "imap.gmail.com";
+        var oauth2 = new SaslMechanismOAuth2(_userCredential.UserId, _userCredential.Token.AccessToken);
+
+        // Connect and authenticate
+        await _imapClient.ConnectAsync(imapServer, imapPort, SecureSocketOptions.SslOnConnect, token);
+        await _imapClient.AuthenticateAsync(oauth2, token);
+
+        return true; 
+    }
+
+    public async Task<bool> ConnectSmptClientAsync(CancellationToken token = default)
+    {
+        if (_userCredential == null) return false;
+        const int smtpPort = 465;
+        const string smtpServer = "smtp.gmail.com";
+        var oauth2 = new SaslMechanismOAuth2(_userCredential.UserId, _userCredential.Token.AccessToken);
+
+        // Connect and authenticate
+        await _smptClient.ConnectAsync(smtpServer, smtpPort, SecureSocketOptions.SslOnConnect, token);
+        await _smptClient.AuthenticateAsync(oauth2, token);
+
+        return true;
+    }
+
+    //Email operations
+    public async Task<bool> SendEmailAsync(MimeMessage message, CancellationToken token = default)
+    {
+        var result = await _smptClient.SendAsync(message, token);
+        return true;
+    }
+
+    public async Task<List<MimeMessage>> LoadEmailMessagesAsync(CancellationToken token = default)
     {
         var emailList = new List<MimeMessage>();
-        if (!ClientConnected) return emailList;
+        if (!ImapClientConnected) return emailList;
 
-        var inbox = _client.Inbox;
-        await inbox.OpenAsync(FolderAccess.ReadOnly);
+        var inbox = _imapClient.Inbox;
+        await inbox.OpenAsync(FolderAccess.ReadOnly, token);
 
         // Retrieve the last 10 messages
         var recentMessages = inbox.Recent > 10 ? inbox.Recent - 10 : 0;
-        var messages = inbox.Fetch(recentMessages, -1, MessageSummaryItems.Full | MessageSummaryItems.UniqueId)
+        var messages = inbox.Fetch(recentMessages, -1, MessageSummaryItems.Full | MessageSummaryItems.UniqueId, token)
                           .Select(summary => inbox.GetMessage(summary.UniqueId))
                           .Take(10);
 
@@ -78,11 +109,19 @@ public class MailKitClientService
         return emailList;
     }
 
-    public async Task DisconnectAsync()
+    public async Task DisconnectImapClientAsync()
     {
-        if (_client.IsConnected)
+        if (_imapClient.IsConnected)
         {
-            await _client.DisconnectAsync(true);
+            await _imapClient.DisconnectAsync(true);
+        }
+    }
+
+    public async Task DisconnectSmtpClientAsync()
+    {
+        if (_smptClient.IsConnected)
+        {
+            await _smptClient.DisconnectAsync(true);
         }
     }
 }
