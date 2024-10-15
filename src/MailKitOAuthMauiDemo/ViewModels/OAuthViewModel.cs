@@ -11,36 +11,72 @@ public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseVi
     private const string GMailAccount = "username@gmail.com";
 
     //Commands
+
     [RelayCommand]
     public async Task ConnectMailKitAsync()
     {
         if (IsBusy) return;
+        IsBusy = true;
 
         try
         {
-            IsBusy = true;
+            // Retrieve client secrets from secure storage
+            var clientSecrets = await LoadClientSecretsAsync();
 
-            var clientSecrets = new ClientSecrets
+            if (clientSecrets == null)
             {
-                ClientId = "XXX.apps.googleusercontent.com",
-                ClientSecret = "XXX"
-            };
+                await Shell.Current.DisplayAlert("Error", "Client secrets not found in secure storage.", "OK");
+                return;
+            }
 
-            var authenicationSuccessful = await _mailKitClientService.AuthenticateAsync(clientSecrets, GMailAccount);
-            if (authenicationSuccessful)
+            // Perform authentication
+            bool isAuthenticated = await _mailKitClientService.AuthenticateAsync(clientSecrets, GMailAccount);
+
+            if (isAuthenticated)
             {
-                IsBusy = false;
+                // Navigate to EmailListPage upon successful authentication
                 await Shell.Current.GoToAsync("//EmailListPage");
             }
-            else 
+            else
             {
-                //Try again
-                await Shell.Current.DisplayAlert("Login Failed", "Authentication failed, please try again", "Ok");
+                await Shell.Current.DisplayAlert("Authentication Failed", "Please check your credentials and try again.", "OK");
             }
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions
+            await Shell.Current.DisplayAlert("Error", $"An error occurred during authentication: {ex.Message}", "OK");
         }
         finally
         {
             IsBusy = false;
+        }
+    }
+
+    // Load ClientSecrets from SecureStorage
+    private async Task<ClientSecrets> LoadClientSecretsAsync()
+    {
+        try
+        {
+            var clientId = await SecureStorage.GetAsync("ClientId");
+            var clientSecret = await SecureStorage.GetAsync("ClientSecret");
+
+            if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
+            {
+                return null;
+            }
+
+            return new ClientSecrets
+            {
+                ClientId = clientId,
+                ClientSecret = clientSecret
+            };
+        }
+        catch (Exception ex)
+        {
+            // Handle possible SecureStorage exceptions (like keychain access issues on iOS)
+            Console.WriteLine($"Error accessing secure storage: {ex.Message}");
+            return null;
         }
     }
 }
