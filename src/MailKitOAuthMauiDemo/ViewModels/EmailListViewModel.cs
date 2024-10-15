@@ -13,6 +13,13 @@ public partial class EmailListViewModel(MailKitClientService mailKitClient) : Ba
 
     //Commands
     [RelayCommand]
+    public async Task WriteEmail()
+    {
+        if (IsBusy) return;
+        await Shell.Current.GoToAsync("//EmailSenderPage");
+    }
+
+    [RelayCommand]
     public async Task LoadEmails()
     {
         if (IsBusy) return;
