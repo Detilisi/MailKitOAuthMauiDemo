@@ -19,6 +19,5 @@ public partial class EmailListPage : ContentPage
     {
         base.OnAppearing();
         _viewModel.LoadEmailsCommand.Execute(null);
-        EmailCollectionView.ItemsSource = _viewModel.Emails;
     }
 }

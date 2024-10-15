@@ -7,44 +7,44 @@
              x:DataType="vm:EmailListViewModel"
              Title="Inbox">
 
-    <VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout>
+            <Button 
+                Margin="20"
+                Text="Write Email" 
+                FontAttributes="Bold"
+                Command="{Binding WriteEmailCommand}" 
+                VerticalOptions="Center"
+                HorizontalOptions="End" />
 
-        <Button 
-            Margin="20"
-            Text="Write Email" 
-            FontAttributes="Bold"
-            Command="{Binding WriteEmailCommand}" 
-            VerticalOptions="Center"
-            HorizontalOptions="End" />
+            <!-- Loading Indicator -->
+            <ActivityIndicator 
+                IsRunning="{Binding IsBusy}" 
+                IsVisible="{Binding IsBusy}" />
 
-        <!-- Loading Indicator -->
-        <ActivityIndicator 
-            IsRunning="{Binding IsBusy}" 
-            IsVisible="{Binding IsBusy}" />
-        
-        <VerticalStackLayout Padding="10">
-            <!-- CollectionView to display emails -->
-            <CollectionView x:Name="EmailCollectionView" x:DataType="models:EmailModel">
+            <CollectionView ItemsSource="{Binding Emails}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="models:EmailModel">
                         <Frame Padding="10" Margin="10" HasShadow="True" BackgroundColor="MediumPurple">
                             <StackLayout>
-                                <Label Text="{Binding Subject}" FontAttributes="Bold"/>
-                                <Label Text="{Binding From}" />
-                                <Label Text="{Binding Date}" FontAttributes="Italic" />
+                                <Label Text="{Binding Subject}" FontAttributes="Bold" TextColor="White"/>
+                                <Label Text="{Binding From}" TextColor="White"/>
+                                <Label Text="{Binding Date}" FontAttributes="Italic" TextColor="LightGray"/>
                             </StackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </VerticalStackLayout>
 
-        <!-- Refresh Button -->
-        <Button 
-            Text="Refresh Emails" 
-            Margin="20"
-            Command="{Binding LoadEmailsCommand}" 
-            HorizontalOptions="Center" 
-            VerticalOptions="EndAndExpand" />
-    </VerticalStackLayout>
+            <!-- Refresh Button -->
+            <Button 
+                Text="Refresh Emails" 
+                Margin="20"
+                Command="{Binding LoadEmailsCommand}" 
+                HorizontalOptions="Center" 
+                VerticalOptions="EndAndExpand" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+    
 </ContentPage>
