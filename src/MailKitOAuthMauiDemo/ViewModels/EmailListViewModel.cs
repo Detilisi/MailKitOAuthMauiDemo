@@ -43,6 +43,7 @@ public partial class EmailListViewModel(MailKitClientService mailKitClient) : Ba
         }
         finally
         {
+            await _mailKitClientService.DisconnectImapClientAsync();
             IsBusy = false;
         }
     }
