@@ -8,7 +8,6 @@ namespace MailKitOAuthMauiDemo.ViewModels;
 public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
 {
     //Commands
-
     [RelayCommand]
     public async Task ConnectMailKitAsync()
     {
