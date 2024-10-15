@@ -6,9 +6,18 @@ using MimeKit;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
-public partial class EmailSenderViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
+public partial class EmailSenderViewModel: BaseViewModel
 {
+    //Construction
+    public EmailSenderViewModel(MailKitClientService mailKitClient) : base(mailKitClient)
+    {
+        Sender = _mailKitClientService.ClientEmailAddress;
+    }
+
     //Properties
+    [ObservableProperty]
+    private string sender;
+
     [ObservableProperty]
     private string recipient = string.Empty;
 
@@ -27,6 +36,7 @@ public partial class EmailSenderViewModel(MailKitClientService mailKitClient) : 
 
         try
         {
+            await _mailKitClientService.ConnectSmptClientAsync();
             if (!_mailKitClientService.SmtpClientConnected)
             {
                 await Shell.Current.DisplayAlert("Error", "Please connect your email client first.", "OK");
@@ -34,7 +44,7 @@ public partial class EmailSenderViewModel(MailKitClientService mailKitClient) : 
             }
 
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Your Name", "youremail@example.com"));
+            message.From.Add(new MailboxAddress(Sender, Sender));
             message.To.Add(new MailboxAddress("", Recipient));
             message.Subject = Subject;
 
@@ -53,6 +63,7 @@ public partial class EmailSenderViewModel(MailKitClientService mailKitClient) : 
         }
         finally
         {
+            await _mailKitClientService.DisconnectSmtpClientAsync();
             IsBusy = false;
         }
     }
