@@ -5,11 +5,20 @@ namespace MailKitOAuthMauiDemo.Pages;
 public partial class EmailListPage : ContentPage
 {
 
-	public EmailListPage(EmailListViewModel viewModel)
+    private EmailListViewModel _viewModel;
+    public EmailListPage(EmailListViewModel viewModel)
 	{
 		InitializeComponent();
 
+        _viewModel = viewModel;
         BindingContext = viewModel;
-        EmailCollectionView.ItemsSource = viewModel.Emails;
+        
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.LoadEmailsCommand.Execute(null);
+        EmailCollectionView.ItemsSource = _viewModel.Emails;
     }
 }
