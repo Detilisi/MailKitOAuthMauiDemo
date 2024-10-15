@@ -7,9 +7,6 @@ namespace MailKitOAuthMauiDemo.ViewModels;
 
 public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
 {
-    //Fields
-    private const string GMailAccount = "username@gmail.com";
-
     //Commands
 
     [RelayCommand]
@@ -30,7 +27,8 @@ public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseVi
             }
 
             // Perform authentication
-            bool isAuthenticated = await _mailKitClientService.AuthenticateAsync(clientSecrets, GMailAccount);
+            var noUserId = " "; //trust me bro
+            bool isAuthenticated = await _mailKitClientService.AuthenticateAsync(clientSecrets, noUserId);
 
             if (isAuthenticated)
             {
