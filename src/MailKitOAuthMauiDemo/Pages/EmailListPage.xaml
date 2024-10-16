@@ -46,7 +46,7 @@
                         <Frame Padding="15" 
                                Margin="10" 
                                HasShadow="True" 
-                               BackgroundColor="#37474F"
+                               BackgroundColor="MediumSlateBlue"
                                BorderColor="#B0BEC5"
                                CornerRadius="12">
                             <StackLayout>
