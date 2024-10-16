@@ -69,7 +69,7 @@
         </Frame>
 
         <!-- Buttons Section -->
-        <Grid ColumnDefinitions="*,*" RowSpacing="10" Padding="0,20,0,0">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="50" Padding="0,20,0,0">
             <!-- Send Button -->
             <Button 
                 Text="Send Email" 

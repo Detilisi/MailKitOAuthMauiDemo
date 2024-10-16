@@ -66,18 +66,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-            <!-- Refresh Button -->
-            <Button 
-                Grid.Row="2"
-                Text="Refresh Emails"
-                Command="{Binding LoadEmailsCommand}" 
-                BackgroundColor="#4CAF50"
-                TextColor="White"
-                Padding="10"
-                CornerRadius="10"
-                HorizontalOptions="Center" 
-                VerticalOptions="End" />
         </Grid>
     </ScrollView>
 </ContentPage>
