@@ -4,38 +4,67 @@
              xmlns:vm="clr-namespace:MailKitOAuthMauiDemo.ViewModels"
              x:DataType="vm:OAuthViewModel"
              x:Class="MailKitOAuthMauiDemo.Pages.OAuthPage"
-             Title="OAuthPage">
-    
-    <VerticalStackLayout
-        Padding="10" 
-        Spacing="20" 
-        VerticalOptions="Center">
+             Title="MauiMailkit">
 
-        <Label 
-            Text="Connect via OAuth2"
-            FontSize="32"
-            FontAttributes="Bold"
-            HorizontalOptions="Center" 
-            VerticalOptions="CenterAndExpand" />
-        
-        <Label Text="with" 
-           FontSize="18" 
-           HorizontalOptions="Center" />    
+    <Grid Padding="30" RowSpacing="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Section -->
+        <VerticalStackLayout Grid.Row="0" VerticalOptions="Center">
+            <Label 
+                Text="Connect Your Email"
+                FontSize="34"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                TextColor="#37474F" />
+
+            <Label 
+                Text="to continue"
+                FontSize="18"
+                HorizontalTextAlignment="Center"
+                TextColor="#616161" />
+        </VerticalStackLayout>
+
+        <!-- OAuth Button Section -->
+        <VerticalStackLayout Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center">
+            <Frame 
+                BackgroundColor="White"
+                CornerRadius="15"
+                HasShadow="True"
+                Padding="20"
+                WidthRequest="300"
+                HorizontalOptions="Center">
+
+                <StackLayout Orientation="Horizontal" Spacing="15" VerticalOptions="Center">
+                    <!-- Google Icon -->
+                    <Image Source="google_icon.png" WidthRequest="50" HeightRequest="50" />
+
+                    <!-- Connect with Google Text -->
+                    <Label 
+                        Text="Sign in with Google"
+                        FontSize="20"
+                        VerticalOptions="Center"
+                        TextColor="#37474F" />
+                </StackLayout>
+
+                <!-- Command Binding -->
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ConnectMailKitCommand}" />
+                </Frame.GestureRecognizers>
+            </Frame>
+        </VerticalStackLayout>
 
         <!-- Loading Indicator -->
         <ActivityIndicator 
+            Grid.Row="2"
             IsRunning="{Binding IsBusy}" 
-            IsVisible="{Binding IsBusy}" />
-
-        <!-- Connect Button -->
-        <ImageButton 
-            Source="google_icon.png" 
-            Margin="20"
-            Padding="30"
-            WidthRequest="150" 
-            HeightRequest="150" 
-            CornerRadius="90"
-            Command="{Binding ConnectMailKitCommand}" />
-
-    </VerticalStackLayout>
+            IsVisible="{Binding IsBusy}" 
+            Color="#2196F3"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>
