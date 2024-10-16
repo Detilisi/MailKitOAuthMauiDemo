@@ -8,28 +8,59 @@
              Title="Inbox">
 
     <ScrollView>
-        <VerticalStackLayout>
+        <Grid Padding="10" RowSpacing="15">
+            <!-- Top Section with Write Email Button -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
             <Button 
-                Margin="20"
-                Text="Write Email" 
+                Grid.Row="0"
+                Text="Write Email"
                 FontAttributes="Bold"
-                Command="{Binding WriteEmailCommand}" 
-                VerticalOptions="Center"
-                HorizontalOptions="End" />
+                Command="{Binding WriteEmailCommand}"
+                Padding="10"
+                BackgroundColor="#2196F3"
+                TextColor="White"
+                CornerRadius="10"
+                HorizontalOptions="End"
+                VerticalOptions="Center" />
 
             <!-- Loading Indicator -->
             <ActivityIndicator 
+                Grid.Row="1"
                 IsRunning="{Binding IsBusy}" 
-                IsVisible="{Binding IsBusy}" />
+                IsVisible="{Binding IsBusy}" 
+                Color="#2196F3"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
 
-            <CollectionView ItemsSource="{Binding Emails}">
+            <!-- Email List -->
+            <CollectionView Grid.Row="1" 
+                            ItemsSource="{Binding Emails}"
+                            Margin="0,10,0,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:EmailModel">
-                        <Frame Padding="10" Margin="10" HasShadow="True" BackgroundColor="MediumPurple">
+                        <Frame Padding="15" 
+                               Margin="10" 
+                               HasShadow="True" 
+                               BackgroundColor="#37474F"
+                               BorderColor="#B0BEC5"
+                               CornerRadius="12">
                             <StackLayout>
-                                <Label Text="{Binding Subject}" FontAttributes="Bold" TextColor="White"/>
-                                <Label Text="{Binding From}" TextColor="White"/>
-                                <Label Text="{Binding Date}" FontAttributes="Italic" TextColor="LightGray"/>
+                                <Label Text="{Binding Subject}" 
+                                       FontAttributes="Bold" 
+                                       TextColor="White"
+                                       FontSize="18"/>
+                                <Label Text="{Binding From}" 
+                                       TextColor="#B0BEC5" 
+                                       FontSize="14"/>
+                                <Label Text="{Binding Date}" 
+                                       FontAttributes="Italic" 
+                                       TextColor="LightGray"
+                                       FontSize="12"/>
                             </StackLayout>
                         </Frame>
                     </DataTemplate>
@@ -38,13 +69,15 @@
 
             <!-- Refresh Button -->
             <Button 
-                Text="Refresh Emails" 
-                Margin="20"
+                Grid.Row="2"
+                Text="Refresh Emails"
                 Command="{Binding LoadEmailsCommand}" 
+                BackgroundColor="#4CAF50"
+                TextColor="White"
+                Padding="10"
+                CornerRadius="10"
                 HorizontalOptions="Center" 
-                VerticalOptions="EndAndExpand" />
-        </VerticalStackLayout>
+                VerticalOptions="End" />
+        </Grid>
     </ScrollView>
-
-    
 </ContentPage>

@@ -8,41 +8,101 @@
 
     <VerticalStackLayout 
         Padding="20" 
-        Spacing="10">
+        Spacing="15">
+
         <!-- Sender Entry -->
-        <Label Text="Sender Email" />
-        <Entry 
-            Text="{Binding Sender, Mode=OneWay}" 
-            Placeholder="sender@example.com"
-            IsReadOnly="True"/>
-        
+        <Label Text="Sender Email" 
+               FontAttributes="Bold" 
+               FontSize="16" 
+               TextColor="#37474F" />
+        <Frame Padding="0" BackgroundColor="#E0E0E0" CornerRadius="10" HasShadow="False">
+            <Entry 
+                Text="{Binding Sender, Mode=OneWay}" 
+                Placeholder="sender@example.com"
+                IsReadOnly="True"
+                TextColor="#616161"
+                BackgroundColor="Transparent"
+                FontSize="14" />
+        </Frame>
+
         <!-- Recipient Entry -->
-        <Label Text="Recipient Email" />
-        <Entry Text="{Binding Recipient}" Placeholder="recipient@example.com" />
+        <Label Text="Recipient Email" 
+               FontAttributes="Bold" 
+               FontSize="16" 
+               TextColor="#37474F" />
+        <Frame Padding="0" BackgroundColor="#E0E0E0" CornerRadius="10" HasShadow="False">
+            <Entry 
+                Text="{Binding Recipient}" 
+                Placeholder="recipient@example.com" 
+                FontSize="14" 
+                TextColor="#616161"
+                BackgroundColor="Transparent"/>
+        </Frame>
 
         <!-- Subject Entry -->
-        <Label Text="Subject" />
-        <Entry Text="{Binding Subject}" Placeholder="Email subject" />
+        <Label Text="Subject" 
+               FontAttributes="Bold" 
+               FontSize="16" 
+               TextColor="#37474F" />
+        <Frame Padding="0" BackgroundColor="#E0E0E0" CornerRadius="10" HasShadow="False">
+            <Entry 
+                Text="{Binding Subject}" 
+                Placeholder="Email subject" 
+                FontSize="14" 
+                TextColor="#616161"
+                BackgroundColor="Transparent"/>
+        </Frame>
 
         <!-- Body Editor -->
-        <Label Text="Message" />
-        <Editor Text="{Binding Body}" HeightRequest="200" Placeholder="Write your message here..." />
+        <Label Text="Message" 
+               FontAttributes="Bold" 
+               FontSize="16" 
+               TextColor="#37474F" />
+        <Frame Padding="0" BackgroundColor="#E0E0E0" CornerRadius="10" HasShadow="False">
+            <Editor 
+                Text="{Binding Body}" 
+                Placeholder="Write your message here..." 
+                HeightRequest="150" 
+                FontSize="14"
+                TextColor="#616161"
+                BackgroundColor="Transparent"/>
+        </Frame>
 
-        <!-- Send Button -->
-        <Button 
-            Text="Send Email" 
-            FontSize="22"
-            FontAttributes="Bold"
-            Command="{Binding SendEmailCommand}" />
-        <Button 
-            Text="Cancel" 
-            FontSize="22"
-            TextColor="White"
-            FontAttributes="Bold"
-            BackgroundColor="Red"
-            Command="{Binding CancelCommand}" />
+        <!-- Buttons Section -->
+        <Grid ColumnDefinitions="*,*" RowSpacing="10" Padding="0,20,0,0">
+            <!-- Send Button -->
+            <Button 
+                Text="Send Email" 
+                Command="{Binding SendEmailCommand}" 
+                BackgroundColor="#4CAF50"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                Padding="10"
+                FontSize="18"
+                Grid.Column="0"
+                HorizontalOptions="FillAndExpand" />
+
+            <!-- Cancel Button -->
+            <Button 
+                Text="Cancel" 
+                Command="{Binding CancelCommand}" 
+                BackgroundColor="Red"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                Padding="10"
+                FontSize="18"
+                Grid.Column="1"
+                HorizontalOptions="FillAndExpand" />
+        </Grid>
 
         <!-- Activity Indicator -->
-        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+        <ActivityIndicator 
+            IsRunning="{Binding IsBusy}" 
+            IsVisible="{Binding IsBusy}" 
+            Color="#2196F3"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
     </VerticalStackLayout>
 </ContentPage>
