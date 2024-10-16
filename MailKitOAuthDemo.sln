@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EAB147D3-4DA8-4148-B131-7C840F324638}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailKitOAuthMauiDemo", "src\MailKitOAuthMauiDemo\MailKitOAuthMauiDemo.csproj", "{BEC9F200-D369-4639-BA44-C57921D3CDC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailKitOAuthDemo", "src\MailKitOAuthMauiDemo\MailKitOAuthDemo.csproj", "{BEC9F200-D369-4639-BA44-C57921D3CDC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
