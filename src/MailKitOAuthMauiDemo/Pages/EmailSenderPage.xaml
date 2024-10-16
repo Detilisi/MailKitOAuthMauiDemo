@@ -74,7 +74,7 @@
             <Button 
                 Text="Send Email" 
                 Command="{Binding SendEmailCommand}" 
-                BackgroundColor="#4CAF50"
+                BackgroundColor="#2196F3"
                 TextColor="White"
                 FontAttributes="Bold"
                 CornerRadius="10"
