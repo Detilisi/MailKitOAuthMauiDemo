@@ -7,6 +7,9 @@ namespace MailKitOAuthMauiDemo.ViewModels;
 
 public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
 {
+    //Fields
+    private string UserEmailAddress = "tester@gmail.com";
+    
     //Commands
     [RelayCommand]
     public async Task ConnectMailKitAsync()
@@ -26,8 +29,7 @@ public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseVi
             }
 
             // Perform authentication
-            var testerEmail = "tester@gmail.com"; //trust me bro
-            bool isAuthenticated = await _mailKitClientService.AuthenticateAsync(clientSecrets, testerEmail);
+            bool isAuthenticated = await _mailKitClientService.AuthenticateAsync(clientSecrets, UserEmailAddress);
 
             if (isAuthenticated)
             {
