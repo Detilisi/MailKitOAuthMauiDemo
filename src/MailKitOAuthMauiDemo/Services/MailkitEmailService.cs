@@ -11,7 +11,7 @@ namespace MailKitOAuthMauiDemo.Services;
 
 public class MailkitEmailService
 {
-    public static async Task SendEmailAsync
+    public static async Task<bool> SendEmailAsync
     (
         UserCredential credential, 
         MimeMessage message, 
@@ -34,10 +34,13 @@ public class MailkitEmailService
 
             // Send the email
             await smtpClient.SendAsync(message, token);
+
+            return true;
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"An error occurred: {ex.Message}");
+            return false;
         }
     }
 
