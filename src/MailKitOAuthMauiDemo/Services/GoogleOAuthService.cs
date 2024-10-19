@@ -10,7 +10,7 @@ namespace MailKitOAuthMauiDemo.Services
 {
     public class GoogleOAuthService
     {
-        public static async Task<UserCredential> GetGoogleOAuthCredentialsAsync
+        public static async Task<UserCredential> GetGoogleUserCredentialAsync
         (
             ClientSecrets clientSecrets, 
             CancellationToken token = default
@@ -41,7 +41,7 @@ namespace MailKitOAuthMauiDemo.Services
             }
         }
 
-        public static async Task<EmailAddress> GetUserEmailAddressAsync
+        public static async Task<EmailAddress> GetGoogleEmailAddressAsync
         (
             UserCredential credential, 
             CancellationToken token = default
