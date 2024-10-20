@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.PeopleService.v1.Data;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Net.Smtp;
@@ -11,17 +12,26 @@ namespace MailKitOAuthMauiDemo.Services;
 
 public class EmailService
 {
-    public static async Task<bool> SendEmailAsync
-    (
-        UserCredential credential, 
-        MimeMessage message, 
-        CancellationToken token = default
-    )
+    //Fields
+    private UserCredential? _userCredential;
+    public EmailAddress? UserEmailAddress { get; private set; }
+
+    //Authenitication
+    public async Task AuthenticateAsync(ClientSecrets clientSecrets, CancellationToken token = default)
     {
+        _userCredential = await GoogleOAuthService.GetGoogleUserCredentialAsync(clientSecrets, token);
+        UserEmailAddress = await GoogleOAuthService.GetGoogleEmailAddressAsync(_userCredential, token);
+    }
+
+    //Email operations
+    public async Task<bool> SendEmailAsync(MimeMessage message, CancellationToken token = default)
+    {
+        if (_userCredential == null || UserEmailAddress == null) return false;
+
         const int smtpPort = 993;
         const string smtpServer = "smpt.gmail.com";
 
-        try 
+        try
         {
             using var smtpClient = new SmtpClient();
 
@@ -29,8 +39,8 @@ public class EmailService
             await smtpClient.ConnectAsync(smtpServer, smtpPort, SecureSocketOptions.SslOnConnect, token);
 
             // Authenticate using OAuth2 (bearer token)
-            var oauth2 = new SaslMechanismOAuth2(credential.UserId, credential.Token.AccessToken);
-            await smtpClient.AuthenticateAsync(oauth2);
+            var oauth2 = new SaslMechanismOAuth2(UserEmailAddress.Value, _userCredential.Token.AccessToken);
+            await smtpClient.AuthenticateAsync(oauth2, token);
 
             // Send the email
             await smtpClient.SendAsync(message, token);
@@ -39,31 +49,32 @@ public class EmailService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"An error occurred: {ex.Message}");
+            Debug.WriteLine(ex.Message);
             return false;
         }
     }
 
-    public static async Task<List<MimeMessage>> FetchEmailsAsync
+    public async Task<List<MimeMessage>> FetchEmailsAsync
     (
-        UserCredential credential, 
-        int pageSize = 10, int skip = 0, 
+        int pageSize = 10, int skip = 0,
         CancellationToken token = default
     )
     {
         const int imapPort = 993;
         const string imapServer = "imap.gmail.com";
 
+        var emailList = new List<MimeMessage>();
+        if (_userCredential == null || UserEmailAddress == null) return emailList;
+
         try
         {
-            var emailList = new List<MimeMessage>();
             using var imapClient = new ImapClient();
 
             // Connect to the Gmail IMAP server using SSL
             await imapClient.ConnectAsync(imapServer, imapPort, SecureSocketOptions.SslOnConnect, token);
 
             // Authenticate using OAuth2 (bearer token)
-            var oauth2 = new SaslMechanismOAuth2(credential.UserId, credential.Token.AccessToken);
+            var oauth2 = new SaslMechanismOAuth2(UserEmailAddress.Value, _userCredential.Token.AccessToken);
             await imapClient.AuthenticateAsync(oauth2, token);
 
             // Open the inbox folder
@@ -83,8 +94,8 @@ public class EmailService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"An error occurred: {ex.Message}");
-            return new List<MimeMessage>();
+            Debug.WriteLine(ex.Message);
+            return emailList;
         }
     }
 }
