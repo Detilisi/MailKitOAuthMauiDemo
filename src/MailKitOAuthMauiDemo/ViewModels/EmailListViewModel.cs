@@ -27,15 +27,8 @@ public partial class EmailListViewModel(MailKitClientService mailKitClient) : Ba
 
         try
         {
-            var clientSecrets = await LoadClientSecretsAsync();
-            if (clientSecrets == null)
-            {
-                await Shell.Current.DisplayAlert("Error", "Client secrets not found in secure storage.", "OK");
-                return;
-            }
-            
-            var userCredential = await GoogleOAuthService.GetGoogleUserCredentialAsync(clientSecrets);
-            var mimeMessages = await EmailService.FetchEmailsAsync(userCredential);
+            await _mailKitClientService.ConnectImapClientAsync();
+            var mimeMessages = await _mailKitClientService.LoadEmailMessagesAsync();
 
             Emails.Clear();
             foreach (var message in mimeMessages)
