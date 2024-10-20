@@ -27,11 +27,15 @@ public partial class EmailListViewModel(MailKitClientService mailKitClient) : Ba
 
         try
         {
-            await _mailKitClientService.ConnectImapClientAsync();
+            var clientSecrets = await LoadClientSecretsAsync();
+            if (clientSecrets == null)
+            {
+                await Shell.Current.DisplayAlert("Error", "Client secrets not found in secure storage.", "OK");
+                return;
+            }
             
-            if (!_mailKitClientService.ImapClientConnected) return;
-
-            var mimeMessages = await _mailKitClientService.LoadEmailMessagesAsync();
+            var userCredential = await GoogleOAuthService.GetGoogleUserCredentialAsync(clientSecrets);
+            var mimeMessages = await EmailService.FetchEmailsAsync(userCredential);
 
             Emails.Clear();
             foreach (var message in mimeMessages)
@@ -50,7 +54,6 @@ public partial class EmailListViewModel(MailKitClientService mailKitClient) : Ba
         }
         finally
         {
-            await _mailKitClientService.DisconnectImapClientAsync();
             IsBusy = false;
         }
     }
