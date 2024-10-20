@@ -28,9 +28,9 @@ public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseVi
             }
 
             // Perform authentication
-            var userCredential = await GoogleOAuthService.GetGoogleUserCredentialAsync(clientSecrets);
+            bool isAuthenticated = await _mailKitClientService.AuthenticateAsync(clientSecrets, UserEmailAddress);
 
-            if (userCredential.Token != null)
+            if (isAuthenticated)
             {
                 // Navigate to EmailListPage upon successful authentication
                 await Shell.Current.GoToAsync("//EmailListPage");
