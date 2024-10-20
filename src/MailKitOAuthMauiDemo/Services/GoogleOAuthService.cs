@@ -49,8 +49,8 @@ public class GoogleOAuthService
     )
     {
         const string resourceUrl = "people/me";
-        const string applicationName = "application-name";
-        const string personFields = "emailAddresses, names";
+        const string applicationName = "MyEmailProgram";
+        const string personFields = "emailAddresses,names";
 
         try
         {
