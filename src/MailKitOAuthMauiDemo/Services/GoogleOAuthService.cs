@@ -16,7 +16,7 @@ public class GoogleOAuthService
         CancellationToken token = default
     )
     {
-        const string anonymousUserId = "anonymous-user";
+        const string userId = "anonymous-user";
         const string cacheFolder = "CredentialCacheFolder";
 
         try
@@ -30,9 +30,10 @@ public class GoogleOAuthService
 
             var codeReceiver = new LocalServerCodeReceiver();
             var authCode = new AuthorizationCodeInstalledApp(codeFlow, codeReceiver);
-            var userCredential = await authCode.AuthorizeAsync(anonymousUserId, token);
-            
-            return userCredential;
+            var userCredential = await authCode.AuthorizeAsync(userId, token);
+            var userEmailAddress = await GetGoogleEmailAddressAsync(userCredential);
+
+            return new UserCredential(userCredential.Flow, userEmailAddress.Value, userCredential.Token);
         }
         catch (Exception ex)
         {
