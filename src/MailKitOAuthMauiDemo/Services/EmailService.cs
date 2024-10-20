@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace MailKitOAuthMauiDemo.Services;
 
-public class MailkitEmailService
+public class EmailService
 {
     public static async Task<bool> SendEmailAsync
     (
