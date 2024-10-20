@@ -31,6 +31,13 @@ public class GoogleOAuthService
             var codeReceiver = new LocalServerCodeReceiver();
             var authCode = new AuthorizationCodeInstalledApp(codeFlow, codeReceiver);
             var userCredential = await authCode.AuthorizeAsync(userId, token);
+
+            // Refresh the token if needed
+            if (userCredential.Token.IsStale)
+            {
+                await userCredential.RefreshTokenAsync(token);
+            }
+
             var userEmailAddress = await GetGoogleEmailAddressAsync(userCredential);
 
             return new UserCredential(userCredential.Flow, userEmailAddress.Value, userCredential.Token);
