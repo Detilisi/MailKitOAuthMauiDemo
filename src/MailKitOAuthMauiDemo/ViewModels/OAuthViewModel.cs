@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using Google.Apis.Auth.OAuth2;
 using MailKitOAuthMauiDemo.Services;
 using MailKitOAuthMauiDemo.ViewModels.Base;
 
@@ -29,9 +28,9 @@ public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseVi
             }
 
             // Perform authentication
-            bool isAuthenticated = await _mailKitClientService.AuthenticateAsync(clientSecrets, UserEmailAddress);
+            var userCredential = await GoogleOAuthService.GetGoogleUserCredentialAsync(clientSecrets);
 
-            if (isAuthenticated)
+            if (userCredential.Token != null)
             {
                 // Navigate to EmailListPage upon successful authentication
                 await Shell.Current.GoToAsync("//EmailListPage");
@@ -49,33 +48,6 @@ public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseVi
         finally
         {
             IsBusy = false;
-        }
-    }
-
-    // Load ClientSecrets from SecureStorage
-    private async Task<ClientSecrets> LoadClientSecretsAsync()
-    {
-        try
-        {
-            var clientId = await SecureStorage.GetAsync("ClientId");
-            var clientSecret = await SecureStorage.GetAsync("ClientSecret");
-
-            if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
-            {
-                return null;
-            }
-
-            return new ClientSecrets
-            {
-                ClientId = clientId,
-                ClientSecret = clientSecret
-            };
-        }
-        catch (Exception ex)
-        {
-            // Handle possible SecureStorage exceptions (like keychain access issues on iOS)
-            Console.WriteLine($"Error accessing secure storage: {ex.Message}");
-            return null;
         }
     }
 }
