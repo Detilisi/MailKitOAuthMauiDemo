@@ -6,12 +6,9 @@ using MimeKit;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
-public partial class EmailSenderViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
+public partial class EmailSenderViewModel: BaseViewModel
 {
     //Properties
-    [ObservableProperty]
-    private string sender;
-
     [ObservableProperty]
     private string recipient = string.Empty;
 
@@ -63,7 +60,6 @@ public partial class EmailSenderViewModel(MailKitClientService mailKitClient) : 
         }
         finally
         {
-            await _mailKitClientService.DisconnectSmtpClientAsync();
             IsBusy = false;
         }
     }

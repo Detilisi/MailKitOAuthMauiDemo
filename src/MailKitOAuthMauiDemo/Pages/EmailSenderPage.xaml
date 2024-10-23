@@ -9,22 +9,7 @@
     <VerticalStackLayout 
         Padding="20" 
         Spacing="15">
-
-        <!-- Sender Entry -->
-        <Label Text="Sender Email" 
-               FontAttributes="Bold" 
-               FontSize="16" 
-               TextColor="#37474F" />
-        <Frame Padding="0" BackgroundColor="#E0E0E0" CornerRadius="10" HasShadow="False">
-            <Entry 
-                Text="{Binding Sender, Mode=OneWay}" 
-                Placeholder="sender@example.com"
-                IsReadOnly="True"
-                TextColor="#616161"
-                BackgroundColor="Transparent"
-                FontSize="14" />
-        </Frame>
-
+        
         <!-- Recipient Entry -->
         <Label Text="Recipient Email" 
                FontAttributes="Bold" 

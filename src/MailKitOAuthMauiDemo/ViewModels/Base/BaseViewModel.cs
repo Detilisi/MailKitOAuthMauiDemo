@@ -1,14 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Google.Apis.Auth.OAuth2;
-using MailKitOAuthMauiDemo.Services;
 
 namespace MailKitOAuthMauiDemo.ViewModels.Base
 {
-    public class BaseViewModel(MailKitClientService mailKitClient) : ObservableObject
+    public class BaseViewModel : ObservableObject
     {
-        //Services
-        protected MailKitClientService _mailKitClientService = mailKitClient;
-
         //Properties
         private bool _isBusy;
         public bool IsBusy

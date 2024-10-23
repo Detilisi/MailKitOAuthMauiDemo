@@ -22,9 +22,6 @@ namespace MailKitOAuthMauiDemo
     		builder.Logging.AddDebug();
 #endif
 
-            //Register servives
-            builder.Services.AddSingleton<MailKitClientService>();
-
             //Register view models
             builder.Services.AddSingleton<OAuthViewModel>();
             builder.Services.AddSingleton<EmailListViewModel>();

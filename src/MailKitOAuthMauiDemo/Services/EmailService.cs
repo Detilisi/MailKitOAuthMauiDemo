@@ -41,7 +41,7 @@ public class EmailService
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return false;
+            throw;
         }
     }
 
@@ -86,7 +86,7 @@ public class EmailService
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return emailList;
+            throw;
         }
     }
 }

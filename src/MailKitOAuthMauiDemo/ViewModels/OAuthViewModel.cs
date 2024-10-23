@@ -4,11 +4,8 @@ using MailKitOAuthMauiDemo.ViewModels.Base;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
-public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
+public partial class OAuthViewModel : BaseViewModel
 {
-    //Fields
-    private string UserEmailAddress = "tester@gmail.com";
-    
     //Commands
     [RelayCommand]
     public async Task ConnectMailKitAsync()
