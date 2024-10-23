@@ -25,7 +25,7 @@ public class GoogleOAuthService
             {
                 ClientSecrets = clientSecrets,
                 DataStore = new FileDataStore(cacheFolder, false),
-                Scopes = [ PeopleServiceService.Scope.UserinfoEmail, PeopleServiceService.Scope.UserinfoProfile ] 
+                Scopes = [ PeopleServiceService.Scope.UserinfoEmail, PeopleServiceService.Scope.UserinfoProfile, "https://mail.google.com/"] 
             });
 
             var codeReceiver = new LocalServerCodeReceiver();
