@@ -20,7 +20,6 @@ public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseVi
         {
             // Retrieve client secrets from secure storage
             var clientSecrets = await LoadClientSecretsAsync();
-
             if (clientSecrets == null)
             {
                 await Shell.Current.DisplayAlert("Error", "Client secrets not found in secure storage.", "OK");
@@ -28,9 +27,8 @@ public partial class OAuthViewModel(MailKitClientService mailKitClient) : BaseVi
             }
 
             // Perform authentication
-            bool isAuthenticated = await _mailKitClientService.AuthenticateAsync(clientSecrets, UserEmailAddress);
-
-            if (isAuthenticated)
+            var userCredential = await GoogleOAuthService.GetGoogleUserCredentialAsync(clientSecrets);
+            if (userCredential != null)
             {
                 // Navigate to EmailListPage upon successful authentication
                 await Shell.Current.GoToAsync("//EmailListPage");

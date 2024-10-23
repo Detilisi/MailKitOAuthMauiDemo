@@ -6,14 +6,8 @@ using MimeKit;
 
 namespace MailKitOAuthMauiDemo.ViewModels;
 
-public partial class EmailSenderViewModel: BaseViewModel
+public partial class EmailSenderViewModel(MailKitClientService mailKitClient) : BaseViewModel(mailKitClient)
 {
-    //Construction
-    public EmailSenderViewModel(MailKitClientService mailKitClient) : base(mailKitClient)
-    {
-        Sender = _mailKitClientService.ClientEmailAddress;
-    }
-
     //Properties
     [ObservableProperty]
     private string sender;
@@ -43,25 +37,24 @@ public partial class EmailSenderViewModel: BaseViewModel
 
         try
         {
-            await _mailKitClientService.ConnectSmptClientAsync();
-            if (!_mailKitClientService.SmtpClientConnected)
+            var clientSecrets = await LoadClientSecretsAsync();
+            if (clientSecrets == null)
             {
-                await Shell.Current.DisplayAlert("Error", "Please connect your email client first.", "OK");
+                await Shell.Current.DisplayAlert("Error", "Client secrets not found in secure storage.", "OK");
                 return;
             }
+            var userCredential = await GoogleOAuthService.GetGoogleUserCredentialAsync(clientSecrets);
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(Sender, Sender));
-            message.To.Add(new MailboxAddress("", Recipient));
-            message.Subject = Subject;
-
-            message.Body = new TextPart("plain")
+            // Compose metheod
+            var message = new MimeMessage()
             {
-                Text = Body
+                Subject = Subject,
+                Body = new TextPart("plain"){ Text = Body },
             };
+            message.From.Add(new MailboxAddress(userCredential.UserId, userCredential.UserId));
+            message.To.Add(new MailboxAddress("", Recipient));
 
-            await _mailKitClientService.SendEmailAsync(message);
-            
+            await EmailService.SendEmailAsync(userCredential, message);
             await Shell.Current.DisplayAlert("Success", "Email sent successfully.", "OK");
         }
         catch (Exception ex)
