@@ -41,6 +41,7 @@ Similarly, MailKit's SMTP client uses the secure credentials obtained during aut
 
 ## Technologies Used
 
+- .Net 8.0
 - .NET MAUI
 - MailKit
 - Google.Apis.Auth
